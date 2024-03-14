@@ -1,0 +1,7 @@
+Notes:
+
+I think configuration should be handlable in my local .env file. I guess if I were gonna get fancy and handle multiples, I'd have each device know when it was turned on the first time.
+It would register a UUID in a database somewhere and perform the setup configuration stuff, and load each from the db. 
+
+But for privacy, I think I'd just want each piece of hardware to handle everything in its own .env file, right? 
+Not sure about best practices there, but it seems like that would be best for a low number of devices that I'm not trying to build an evil empire off of.

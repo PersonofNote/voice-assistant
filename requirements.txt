@@ -1,0 +1,6 @@
+python-dotenv
+py3-tts
+SpeechRecognition
+wikipedia
+pyaudio
+wyze_sdk
