@@ -13,6 +13,8 @@ I am developing this project for a few reasons:
 - Reduce screen time? In theory if I get all the planned skills up and running I'll be looking at my phone and navigating through different tabs less. The time saving there is probably nominal, though; this is mostly just a for-fun project
 - Eventual language model integration experiments
 
+### Required packages
+sounddevice - silences ALSA errors on raspberry pi (https://github.com/Uberi/speech_recognition/issues/182#issuecomment-142693944)
 
 #### Gotchas 
 May need to install

@@ -4,3 +4,5 @@ SpeechRecognition
 wikipedia
 pyaudio
 wyze_sdk
+# Silences needless ALSA errors  https://github.com/Uberi/speech_recognition/issues/182#issuecomment-1426939447
+sounddevice

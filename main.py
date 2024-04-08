@@ -3,7 +3,9 @@ import speech_recognition as sr
 import webbrowser 
 import datetime 
 import wikipedia
+import sounddevice
 from dotenv import load_dotenv
+
 
 load_dotenv('.env')
 
