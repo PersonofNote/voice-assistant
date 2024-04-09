@@ -3,7 +3,7 @@ import speech_recognition as sr
 import webbrowser 
 import datetime 
 import wikipedia
-import sounddevice
+# import sounddevice
 from dotenv import load_dotenv
 
 
@@ -109,6 +109,26 @@ def Take_query():
 				elif "on" in query:
 					print("Turning on")
 					wyze_execute_command(device, "on", client)
+
+			case x if "food info" in query:
+					file_path = './data/foodkeeper.json'
+					q = query.lower().split()
+					stopwords = read_stopwords('./data/stopwords.txt')
+					filtered_query = filter_arr(q, stopwords)
+					search_keyword = filter_arr(filtered_query, ['food', 'info'])
+					fields_to_return = ['refrigerate_after_opening_max']
+
+					print(filtered_query)
+					print(search_keyword)
+
+					search_results = search_food_json(file_path, search_keyword, fields_to_return)
+
+					if search_results:
+						for result in search_results:
+							print(result)
+					else:
+						print("No matching items found.")
+
 
 		'''
 		if "open google" in query:
