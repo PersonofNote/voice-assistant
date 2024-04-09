@@ -42,10 +42,12 @@ def takeCommand():
 		# seconds of non-speaking audio before 
 		# a phrase is considered complete
 		r.pause_threshold = 0.7
+		r.adjust_for_ambient_noise(source)
 		audio = r.listen(source)
 		
 		try:
 			print("Recognizing")
+			#Query = r.recognize_whisper(audio, language='en')
 			Query = r.recognize_google(audio, language='en')
 			print("Query: ", Query)
 			
