@@ -7,6 +7,7 @@ from wyze_sdk.errors import WyzeApiError
 def wyze_client(env_path = '.env'):
     print("Initializing client")
     try: 
+        # Todo: implement token refresh logic
         response = Client().login(
         email=os.getenv('WYZE_EMAIL'),
         password=os.getenv('WYZE_PASSWORD'),
@@ -55,7 +56,8 @@ def wyze_list_devices(client, filter = ''):
 
 def wyze_get_mac_from_nickname(nickname, client):
     for device in client.devices_list():
-        if device.nickname.lower().strip() == nickname.lower().strip():
+        # Sometimes python hears extra words; check for substring in string instead of strict equality
+        if device.nickname.lower().strip() in nickname.lower().strip():
             return device
     return None
 

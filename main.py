@@ -3,7 +3,7 @@ import speech_recognition as sr
 import webbrowser 
 import datetime 
 import wikipedia
-# import sounddevice
+import sounddevice
 from dotenv import load_dotenv
 
 
@@ -74,6 +74,7 @@ def Take_query():
 	while(True):
 		
 		query = takeCommand().lower()
+		client = wyze_client('.env')
 
 		match query:
 			case x if "open google" in x:
@@ -97,11 +98,11 @@ def Take_query():
 				speak("According to wikipedia")
 				speak(result)
 
-			case x if "on" or "off" in query:
-				# TODO: Clean this up. It's super messy right now. Need a more elegant way to detect the command, and to get the nickname. 
+			case x if "turn" in query:
+				# TODO: Clean this up. It's super messy right now. Need a more elegant way to detect the command, and to get the nickname.
+				# Probably to initialize the client, 
 				# But it works for my specific needs
 				print("Light based command detected")
-				client = wyze_client('.env')
 				stopwords = ['turn', 'off', 'on']
 				q = query.lower().split()
 				device_nickname = " ".join(filter_arr(q, stopwords))
