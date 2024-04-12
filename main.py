@@ -97,19 +97,27 @@ def Take_query():
 				speak("According to wikipedia")
 				speak(result)
 
-			case x if "light" in query:
+			case x if "on" or "off" in query:
 				# TODO: Clean this up. It's super messy right now. Need a more elegant way to detect the command, and to get the nickname. 
 				# But it works for my specific needs
 				print("Light based command detected")
-				client = wyze_client('./skills/wyze_smartDevices/.env')
-				device = wyze_get_mac_from_nickname('bedside', client)
-				if "off" in query:
-					print("Turning off")
-					wyze_execute_command(device, "off", client)
-				elif "on" in query:
-					print("Turning on")
-					wyze_execute_command(device, "on", client)
-
+				client = wyze_client('.env')
+				stopwords = ['turn', 'off', 'on']
+				q = query.lower().split()
+				device_nickname = " ".join(filter_arr(q, stopwords))
+				print(device_nickname)
+				try:
+					device = wyze_get_mac_from_nickname(device_nickname, client)
+					if "off" in query:
+						print("Turning off")
+						wyze_execute_command(device, "off", client)
+					elif "on" in query:
+						print("Turning on")
+						wyze_execute_command(device, "on", client)
+				except Exception as e:
+					print(e)
+					return "None"
+				
 			case x if "food info" in query:
 					file_path = './data/foodkeeper.json'
 					q = query.lower().split()
@@ -150,7 +158,6 @@ def Take_query():
 			speak("According to wikipedia")
 			speak(result)
 		'''
-		
 
 if __name__ == '__main__':
 

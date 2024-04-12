@@ -5,10 +5,17 @@ from wyze_sdk import Client
 from wyze_sdk.errors import WyzeApiError
 
 def wyze_client(env_path = '.env'):
+    print("Initializing client")
     try: 
-        token = os.getenv("WYZE_API_TOKEN")
-        print('Token found ' + token)
-        return Client(token)
+        response = Client().login(
+        email=os.getenv('WYZE_EMAIL'),
+        password=os.getenv('WYZE_PASSWORD'),
+        key_id=os.getenv('WYZE_API_KEY_ID'),
+        api_key=os.getenv('WYZE_API_KEY')
+        )
+        set_key(env_path, 'WYZE_API_TOKEN', response['access_token'])
+        return Client(response['access_token'])
+            
     except:
         # if no token exists, create and save the new token
         print('Creating new token')
@@ -36,7 +43,7 @@ def wyze_execute_command(device, command, client):
 
 def wyze_list_devices(client, filter = ''):
     # TODO: allow filtering by type if wanted
-    device_list= []
+    device_list = []
     print(client.devices_list())
     for device in client.devices_list():
         print(f"mac: {device.mac}")
@@ -51,3 +58,4 @@ def wyze_get_mac_from_nickname(nickname, client):
         if device.nickname.lower().strip() == nickname.lower().strip():
             return device
     return None
+
