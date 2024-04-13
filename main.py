@@ -12,6 +12,9 @@ load_dotenv('.env')
 # Skills
 from skills import *
 
+# init variables
+wyze_client = wyze_client('.env')
+
 def init_voice_engine():
     engine = pyttsx3.init()
     voices = engine.getProperty('voices')
@@ -74,7 +77,6 @@ def Take_query():
 	while(True):
 		
 		query = takeCommand().lower()
-		client = wyze_client('.env')
 
 		match query:
 			case x if "open google" in x:
@@ -108,13 +110,13 @@ def Take_query():
 				device_nickname = " ".join(filter_arr(q, stopwords))
 				print(device_nickname)
 				try:
-					device = wyze_get_mac_from_nickname(device_nickname, client)
+					device = wyze_get_mac_from_nickname(device_nickname, wyze_client)
 					if "off" in query:
 						print("Turning off")
-						wyze_execute_command(device, "off", client)
+						wyze_execute_command(device, "off", wyze_client)
 					elif "on" in query:
 						print("Turning on")
-						wyze_execute_command(device, "on", client)
+						wyze_execute_command(device, "on", wyze_client)
 				except Exception as e:
 					print(e)
 					return "None"
