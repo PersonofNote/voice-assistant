@@ -1,3 +1,6 @@
+#!/home/jessicamartin/Documents/voice_assistant/.venv/bin/python
+
+
 import pyttsx3
 import speech_recognition as sr
 import webbrowser 
@@ -66,7 +69,7 @@ def speak(audio, engine = default_engine):
 	engine.runAndWait()
 
 def Hello():
-	speak("Hi")
+	speak("Voice assistant running")
 
 
 

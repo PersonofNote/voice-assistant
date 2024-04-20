@@ -27,3 +27,5 @@ On raspberry pi os need to run
 `sudo apt install flac`
 
 For some reason, the line `import sounddevice` got rid of about a hundred ALSA library errors.
+
+When setting up the .system script, need to specify default audio card or alsa will choke. Follow [instructions here](https://www.alsa-project.org/wiki/Setting_the_default_device) for simplest solution
