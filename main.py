@@ -8,7 +8,7 @@ import datetime
 import wikipedia
 import sounddevice
 from dotenv import load_dotenv
-
+from pocketsphinx import LiveSpeech
 
 load_dotenv('.env')
 
@@ -38,16 +38,14 @@ def list_voices(engine = default_engine):
         engine.runAndWait()
         engine.stop()
 
-def takeCommand():
+def takeCommand(r, mic):
 
-	r = sr.Recognizer()
-
-	with sr.Microphone() as source:
+	with mic as source:
 		print('Listening')
 		
 		# seconds of non-speaking audio before 
 		# a phrase is considered complete
-		r.pause_threshold = 0.7
+		r.pause_threshold = 0.5
 		r.adjust_for_ambient_noise(source)
 		audio = r.listen(source)
 		
@@ -55,11 +53,14 @@ def takeCommand():
 			print("Recognizing")
 			#Query = r.recognize_whisper(audio, language='en')
 			Query = r.recognize_google(audio, language='en')
+			# Query = r.recognize_sphinx(audio, language='en')
 			print("Query: ", Query)
-			
-		except Exception as e:
-			print(e)
-			print("Say that again please")
+
+		except sr.UnknownValueError:
+			print("Speech recognition could not understand audio")
+			return "None"
+		except sr.RequestError as e:
+			print(f"Request error: {e}")
 			return "None"
 		
 		return Query
@@ -71,21 +72,29 @@ def speak(audio, engine = default_engine):
 def Hello():
 	speak("Voice assistant running")
 
+def initializeRecognizer():
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone()
+    return recognizer, microphone
+
 
 
 def Take_query():
 	Hello()
+	recognizer, microphone = initializeRecognizer()
+
+	wakeword = False
+	for phrase in LiveSpeech():
+		if phrase.contains('computer'): wakeword = True
+		print(phrase.contains('computer'))
+		return wakeword
 	
+
     # run until exit command is spoken or entered in terminal
 	while(True):
-		
-		query = takeCommand().lower()
+		query = takeCommand(recognizer, microphone).lower()
 
-		match query:
-			case x if "open google" in x:
-				speak("Opening Google ")
-				webbrowser.open("www.google.com")
-			
+		match query:			
 			case x if "list voices" in x:
 				# TODO: add option to set voice
 				speak("Listing voices")
